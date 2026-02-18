@@ -21,7 +21,7 @@ const INSTALLERS = {
     version: '1.0.0',
     size: '85 MB',
     requirements: 'Windows 10/11 (64-bit)',
-    url: '/installers/pvc-restoration-setup-1.0.0.exe',
+    url: 'installers/pvc-restoration-setup-1.0.0.exe',
     status: 'available'
   },
   android: {
@@ -29,7 +29,7 @@ const INSTALLERS = {
     version: '1.0.0',
     size: '45 MB',
     requirements: 'Android 8.0+',
-    url: '/installers/app-debug.apk',
+    url: 'installers/app-debug.apk',
     status: 'available'
   }
 };
@@ -73,6 +73,8 @@ function PlatformIcon({ platformKey }) {
 export default function LandingPage({ theme, toggleTheme, language, changeLanguage }) {
   const t = TEXT[language] || TEXT.es;
   const isDark = theme === 'dark';
+  const publicBase = process.env.PUBLIC_URL || '';
+  const resolveAssetUrl = (assetPath) => `${publicBase}/${assetPath}`.replace(/([^:]\/)\/+/g, '$1');
 
   return (
     <div
@@ -184,7 +186,7 @@ export default function LandingPage({ theme, toggleTheme, language, changeLangua
                     <div className="space-y-2">
                       <Button
                         className={isDark ? 'w-full bg-slate-100 text-slate-900 hover:bg-white' : 'w-full bg-slate-900 text-slate-100 hover:bg-slate-800'}
-                        onClick={() => window.open(item.url, '_blank')}
+                        onClick={() => window.open(resolveAssetUrl(item.url), '_blank')}
                       >
                         <Download className="mr-2 h-4 w-4" />
                         {t.download}
