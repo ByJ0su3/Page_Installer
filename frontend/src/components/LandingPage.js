@@ -1,15 +1,14 @@
 import React from 'react';
 import { Button } from './ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
 import {
-  ArrowRight,
   Download,
   Globe,
   Smartphone,
   Monitor,
-  ShieldCheck,
+  Car,
   Moon,
   Sun
 } from 'lucide-react';
@@ -19,7 +18,7 @@ import {
 const INSTALLERS = {
   windows: {
     name: 'Windows',
-    version: 'v1.2.0',
+    version: '1.0.0',
     size: '85 MB',
     requirements: 'Windows 10/11 (64-bit)',
     url: '/installers/pvc-restoration-setup-1.0.0.exe',
@@ -27,7 +26,7 @@ const INSTALLERS = {
   },
   android: {
     name: 'Android',
-    version: 'v1.2.0',
+    version: '1.0.0',
     size: '45 MB',
     requirements: 'Android 8.0+',
     url: '/installers/app-debug.apk',
@@ -38,13 +37,10 @@ const INSTALLERS = {
 const TEXT = {
   es: {
     brand: 'P&VC Restoration',
-    subtitle: 'Gestion de Restauracion Mercedes-Benz',
+    subtitle: 'Gestion de Restauracion BMW',
     heroTitle: 'Centro de Instaladores Oficiales',
-    heroDescription:
-      'Descarga la aplicacion oficial para cada plataforma. Diseno alineado al estilo corporativo del proyecto real.',
-    accessDashboard: 'Access Dashboard',
-    installersTitle: 'Instaladores Disponibles',
-    installersSub: 'Aqui puedes colocar y actualizar todos los instaladores en un solo lugar.',
+    heroDescription: 'Descarga la aplicacion oficial para cada plataforma, de produccion oficial de BMW Restoration.',
+    installersTitle: 'Instaladores',
     version: 'Version',
     size: 'Tamano',
     requirements: 'Requisitos',
@@ -55,13 +51,10 @@ const TEXT = {
   },
   en: {
     brand: 'P&VC Restoration',
-    subtitle: 'Mercedes-Benz Restoration Management',
+    subtitle: 'BMW Restoration Management',
     heroTitle: 'Official Installer Center',
-    heroDescription:
-      'Download the official app for each platform. Layout aligned with your real project style.',
-    accessDashboard: 'Access Dashboard',
-    installersTitle: 'Available Installers',
-    installersSub: 'Keep and update all installers in one place.',
+    heroDescription: 'Download the official application for each platform, official production of BMW Restoration.',
+    installersTitle: 'Installers',
     version: 'Version',
     size: 'Size',
     requirements: 'Requirements',
@@ -79,25 +72,52 @@ function PlatformIcon({ platformKey }) {
 
 export default function LandingPage({ theme, toggleTheme, language, changeLanguage }) {
   const t = TEXT[language] || TEXT.es;
+  const isDark = theme === 'dark';
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#091229_0%,_#030711_45%,_#02040a_100%)] text-slate-100">
-      <header className="sticky top-0 z-20 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur">
+    <div
+      className={`min-h-screen ${
+        isDark
+          ? 'bg-[radial-gradient(circle_at_top,_#091229_0%,_#030711_45%,_#02040a_100%)] text-slate-100'
+          : 'bg-[radial-gradient(circle_at_top,_#dbe7ff_0%,_#f4f7ff_45%,_#eef2ff_100%)] text-slate-900'
+      }`}
+    >
+      <header
+        className={`sticky top-0 z-20 backdrop-blur ${
+          isDark ? 'border-b border-slate-800/80 bg-slate-950/80' : 'border-b border-slate-300/90 bg-white/80'
+        }`}
+      >
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-md border border-slate-700 bg-slate-900/80 flex items-center justify-center">
-              <ShieldCheck className="h-5 w-5 text-slate-300" />
+            <div
+              className={`h-10 w-10 overflow-hidden rounded-full border flex items-center justify-center ${
+                isDark ? 'border-slate-700 bg-slate-900/80' : 'border-slate-300 bg-white'
+              }`}
+            >
+              <img
+                src="/logo-pvc.svg"
+                alt="P&VC logo"
+                className="h-full w-full object-cover"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+              <Car className={`h-5 w-5 ${isDark ? 'text-slate-300' : 'text-slate-600'}`} />
             </div>
             <div>
               <p className="font-semibold leading-none">{t.brand}</p>
-              <p className="text-xs text-slate-400">{t.subtitle}</p>
+              <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{t.subtitle}</p>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
             <Button
               variant="outline"
-              className="border-slate-700 bg-transparent text-slate-100 hover:bg-slate-800"
+              className={
+                isDark
+                  ? 'border-slate-700 bg-transparent text-slate-100 hover:bg-slate-800'
+                  : 'border-slate-300 bg-transparent text-slate-900 hover:bg-slate-100'
+              }
               onClick={() => changeLanguage(language === 'es' ? 'en' : 'es')}
             >
               <Globe className="mr-2 h-4 w-4" />
@@ -105,7 +125,11 @@ export default function LandingPage({ theme, toggleTheme, language, changeLangua
             </Button>
             <Button
               variant="outline"
-              className="border-slate-700 bg-transparent text-slate-100 hover:bg-slate-800"
+              className={
+                isDark
+                  ? 'border-slate-700 bg-transparent text-slate-100 hover:bg-slate-800'
+                  : 'border-slate-300 bg-transparent text-slate-900 hover:bg-slate-100'
+              }
               onClick={toggleTheme}
             >
               {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
@@ -117,44 +141,40 @@ export default function LandingPage({ theme, toggleTheme, language, changeLangua
       <main>
         <section className="mx-auto max-w-6xl px-4 pb-16 pt-20 text-center">
           <h1 className="mx-auto max-w-4xl text-4xl font-bold leading-tight sm:text-6xl">{t.heroTitle}</h1>
-          <p className="mx-auto mt-6 max-w-2xl text-base text-slate-300 sm:text-xl">{t.heroDescription}</p>
-          <div className="mt-10">
-            <Button className="bg-slate-100 px-7 py-6 text-base text-slate-900 hover:bg-white">
-              {t.accessDashboard}
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </div>
+          <p className={`mx-auto mt-6 max-w-2xl text-base sm:text-xl ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+            {t.heroDescription}
+          </p>
         </section>
 
         <section className="mx-auto max-w-6xl px-4 pb-20">
           <div className="mb-10 text-center">
             <h2 className="text-3xl font-bold sm:text-4xl">{t.installersTitle}</h2>
-            <p className="mx-auto mt-3 max-w-2xl text-slate-300">{t.installersSub}</p>
           </div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {Object.entries(INSTALLERS).map(([key, item]) => (
               <Card
                 key={key}
-                className="border-slate-700 bg-slate-900/65 text-slate-100 shadow-[0_8px_30px_rgba(0,0,0,0.35)]"
+                className={
+                  isDark
+                    ? 'border-slate-700 bg-slate-900/65 text-slate-100 shadow-[0_8px_30px_rgba(0,0,0,0.35)]'
+                    : 'border-slate-300 bg-white/90 text-slate-900 shadow-[0_8px_24px_rgba(15,23,42,0.12)]'
+                }
               >
                 <CardHeader>
                   <div className="mb-4 flex items-center justify-between">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-slate-800">
+                    <div className={`flex h-12 w-12 items-center justify-center rounded-lg ${isDark ? 'bg-slate-800' : 'bg-slate-100'}`}>
                       <PlatformIcon platformKey={key} />
                     </div>
-                    <Badge className={item.status === 'available' ? 'bg-slate-200 text-slate-900' : 'bg-slate-700 text-slate-200'}>
+                    <Badge className={item.status === 'available' ? 'bg-slate-200 text-slate-900' : 'bg-slate-600 text-slate-100'}>
                       {item.status === 'available' ? item.version : t.pending}
                     </Badge>
                   </div>
                   <CardTitle>{item.name}</CardTitle>
-                  <CardDescription className="text-slate-400">
-                    {item.status === 'available' ? t.download : t.pendingLabel}
-                  </CardDescription>
                 </CardHeader>
 
                 <CardContent className="space-y-3">
-                  <div className="text-sm text-slate-300">
+                  <div className={`text-sm ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
                     <p>{t.version}: {item.version}</p>
                     <p>{t.size}: {item.size}</p>
                     <p>{t.requirements}: {item.requirements}</p>
@@ -162,7 +182,10 @@ export default function LandingPage({ theme, toggleTheme, language, changeLangua
 
                   {item.status === 'available' ? (
                     <div className="space-y-2">
-                      <Button className="w-full bg-slate-100 text-slate-900 hover:bg-white" onClick={() => window.open(item.url, '_blank')}>
+                      <Button
+                        className={isDark ? 'w-full bg-slate-100 text-slate-900 hover:bg-white' : 'w-full bg-slate-900 text-slate-100 hover:bg-slate-800'}
+                        onClick={() => window.open(item.url, '_blank')}
+                      >
                         <Download className="mr-2 h-4 w-4" />
                         {t.download}
                       </Button>
@@ -180,10 +203,10 @@ export default function LandingPage({ theme, toggleTheme, language, changeLangua
         </section>
       </main>
 
-      <footer className="border-t border-slate-800 bg-slate-950/50">
+      <footer className={isDark ? 'border-t border-slate-800 bg-slate-950/50' : 'border-t border-slate-300 bg-white/70'}>
         <div className="mx-auto max-w-6xl px-4 py-8">
-          <Separator className="mb-6 bg-slate-700" />
-          <p className="text-center text-sm text-slate-400">{t.footerText}</p>
+          <Separator className={isDark ? 'mb-6 bg-slate-700' : 'mb-6 bg-slate-300'} />
+          <p className={`text-center text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>{t.footerText}</p>
         </div>
       </footer>
     </div>

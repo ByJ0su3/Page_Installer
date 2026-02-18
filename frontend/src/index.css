@@ -190,7 +190,7 @@ html {
     scroll-behavior: smooth;
 }
 
-/* Custom Scrollbar - Premium Style */
+/* Neutral scrollbar */
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -201,12 +201,12 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: hsl(var(--accent));
+    background: #8b8b8b;
     border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--accent) / 0.8);
+    background: #6f6f6f;
 }
 
 /* Selection Color */
