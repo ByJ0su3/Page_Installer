@@ -139,7 +139,7 @@ frontend:
     status_history:
         - working: "NA"
         - agent: "testing"
-        - comment: "Need to test all 5 platform cards (Windows, macOS, Linux, Android, iOS), hover effects, version badges, download buttons, Linux AppImage/.deb buttons, iOS TestFlight button"
+        - comment: "Need to test both platform cards (Windows, Android), hover effects, version badges, and download buttons"
 
   - task: "Installation Methods Section Testing"
     implemented: true
@@ -163,7 +163,7 @@ frontend:
     status_history:
         - working: "NA"
         - agent: "testing"
-        - comment: "Need to test 4 note cards (macOS, Android, iOS, Security), instruction steps with checkmark icons, card styling"
+        - comment: "Need to test note cards (Windows, Android, Security), instruction steps with checkmark icons, card styling"
 
   - task: "Version History Section Testing"
     implemented: true
