@@ -8,13 +8,19 @@ import {
   Globe,
   Smartphone,
   Monitor,
-  Car,
   Moon,
   Sun
 } from 'lucide-react';
 
-// Central config: keep installer files in frontend/public/installers
-// and reference them with relative URLs like /installers/file-name.ext
+const LANGUAGE_OPTIONS = [
+  { code: 'es', label: 'ES' },
+  { code: 'en', label: 'EN' },
+  { code: 'fr', label: 'FR' },
+  { code: 'de', label: 'DE' },
+  { code: 'it', label: 'IT' },
+  { code: 'pt', label: 'PT' }
+];
+
 const INSTALLERS = {
   windows: {
     name: 'Windows',
@@ -37,9 +43,9 @@ const INSTALLERS = {
 const TEXT = {
   es: {
     brand: 'P&VC Restoration',
-    subtitle: 'Gestion de Restauracion BMW',
+    subtitle: 'Gestion',
     heroTitle: 'Centro de Instaladores Oficiales',
-    heroDescription: 'Descarga la aplicacion oficial para cada plataforma, de produccion oficial de BMW Restoration.',
+    heroDescription: 'Descarga la aplicacion oficial para cada plataforma.',
     installersTitle: 'Instaladores',
     version: 'Version',
     size: 'Tamano',
@@ -51,9 +57,9 @@ const TEXT = {
   },
   en: {
     brand: 'P&VC Restoration',
-    subtitle: 'BMW Restoration Management',
+    subtitle: 'Management',
     heroTitle: 'Official Installer Center',
-    heroDescription: 'Download the official application for each platform, official production of BMW Restoration.',
+    heroDescription: 'Download the official application for each platform.',
     installersTitle: 'Installers',
     version: 'Version',
     size: 'Size',
@@ -61,6 +67,62 @@ const TEXT = {
     download: 'Download',
     pending: 'Coming soon',
     pendingLabel: 'No link yet',
+    footerText: 'Performing in Vintage Classic - Installer Hub'
+  },
+  fr: {
+    brand: 'P&VC Restoration',
+    subtitle: 'Gestion',
+    heroTitle: 'Centre Officiel des Installateurs',
+    heroDescription: 'Telechargez l application officielle pour chaque plateforme.',
+    installersTitle: 'Installateurs',
+    version: 'Version',
+    size: 'Taille',
+    requirements: 'Exigences',
+    download: 'Telecharger',
+    pending: 'Bientot',
+    pendingLabel: 'Lien indisponible',
+    footerText: 'Performing in Vintage Classic - Installer Hub'
+  },
+  de: {
+    brand: 'P&VC Restoration',
+    subtitle: 'Verwaltung',
+    heroTitle: 'Offizielles Installer Zentrum',
+    heroDescription: 'Lade die offizielle Anwendung fuer jede Plattform herunter.',
+    installersTitle: 'Installer',
+    version: 'Version',
+    size: 'Groesse',
+    requirements: 'Anforderungen',
+    download: 'Herunterladen',
+    pending: 'Demnaechst',
+    pendingLabel: 'Noch kein Link',
+    footerText: 'Performing in Vintage Classic - Installer Hub'
+  },
+  it: {
+    brand: 'P&VC Restoration',
+    subtitle: 'Gestione',
+    heroTitle: 'Centro Installatori Ufficiale',
+    heroDescription: 'Scarica l applicazione ufficiale per ogni piattaforma.',
+    installersTitle: 'Installatori',
+    version: 'Versione',
+    size: 'Dimensione',
+    requirements: 'Requisiti',
+    download: 'Scarica',
+    pending: 'Prossimamente',
+    pendingLabel: 'Link non disponibile',
+    footerText: 'Performing in Vintage Classic - Installer Hub'
+  },
+  pt: {
+    brand: 'P&VC Restoration',
+    subtitle: 'Gestao',
+    heroTitle: 'Centro Oficial de Instaladores',
+    heroDescription: 'Baixe o aplicativo oficial para cada plataforma.',
+    installersTitle: 'Instaladores',
+    version: 'Versao',
+    size: 'Tamanho',
+    requirements: 'Requisitos',
+    download: 'Baixar',
+    pending: 'Em breve',
+    pendingLabel: 'Sem link ainda',
     footerText: 'Performing in Vintage Classic - Installer Hub'
   }
 };
@@ -89,22 +151,21 @@ export default function LandingPage({ theme, toggleTheme, language, changeLangua
           isDark ? 'border-b border-slate-800/80 bg-slate-950/80' : 'border-b border-slate-300/90 bg-white/80'
         }`}
       >
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-5">
           <div className="flex items-center gap-3">
             <div
               className={`h-10 w-10 overflow-hidden rounded-full border flex items-center justify-center ${
-                isDark ? 'border-slate-700 bg-slate-900/80' : 'border-slate-300 bg-white'
+                isDark ? 'border-slate-700 bg-white' : 'border-slate-300 bg-white'
               }`}
             >
               <img
-                src="/logo-pvc.svg"
+                src={resolveAssetUrl('icon.png')}
                 alt="P&VC logo"
-                className="h-full w-full object-cover"
+                className="h-full w-full object-contain"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
                 }}
               />
-              <Car className={`h-5 w-5 ${isDark ? 'text-slate-300' : 'text-slate-600'}`} />
             </div>
             <div>
               <p className="font-semibold leading-none">{t.brand}</p>
@@ -112,25 +173,33 @@ export default function LandingPage({ theme, toggleTheme, language, changeLangua
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              className={
-                isDark
-                  ? 'border-slate-700 bg-transparent text-slate-100 hover:bg-slate-800'
-                  : 'border-slate-300 bg-transparent text-slate-900 hover:bg-slate-100'
-              }
-              onClick={() => changeLanguage(language === 'es' ? 'en' : 'es')}
+          <div className="ml-4 flex items-center gap-3">
+            <div
+              className={`flex h-10 items-center gap-2 rounded-md border px-3 ${
+                isDark ? 'border-slate-700 bg-transparent text-slate-100' : 'border-slate-300 bg-transparent text-slate-900'
+              }`}
             >
-              <Globe className="mr-2 h-4 w-4" />
-              {language === 'es' ? 'EN' : 'ES'}
-            </Button>
+              <Globe className="h-4 w-4" />
+              <select
+                value={language}
+                onChange={(e) => changeLanguage(e.target.value)}
+                className={`bg-transparent text-sm outline-none ${isDark ? 'text-slate-100' : 'text-slate-900'}`}
+                aria-label="Language selector"
+              >
+                {LANGUAGE_OPTIONS.map((item) => (
+                  <option key={item.code} value={item.code} className="text-slate-900">
+                    {item.label}
+                  </option>
+                ))}
+              </select>
+            </div>
             <Button
               variant="outline"
+              size="icon"
               className={
                 isDark
-                  ? 'border-slate-700 bg-transparent text-slate-100 hover:bg-slate-800'
-                  : 'border-slate-300 bg-transparent text-slate-900 hover:bg-slate-100'
+                  ? 'h-10 w-10 border-slate-700 bg-transparent text-slate-100 hover:bg-slate-800'
+                  : 'h-10 w-10 border-slate-300 bg-transparent text-slate-900 hover:bg-slate-100'
               }
               onClick={toggleTheme}
             >
@@ -191,7 +260,6 @@ export default function LandingPage({ theme, toggleTheme, language, changeLangua
                         <Download className="mr-2 h-4 w-4" />
                         {t.download}
                       </Button>
-
                     </div>
                   ) : (
                     <Button disabled className="w-full cursor-not-allowed bg-slate-700 text-slate-300">
@@ -214,4 +282,3 @@ export default function LandingPage({ theme, toggleTheme, language, changeLangua
     </div>
   );
 }
-
