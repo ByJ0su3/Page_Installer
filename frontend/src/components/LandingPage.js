@@ -43,16 +43,16 @@ const INSTALLERS = {
 const TEXT = {
   es: {
     brand: 'P&VC Restoration',
-    subtitle: 'Gestion',
-    heroTitle: 'Centro de Instaladores Oficiales',
-    heroDescription: 'Descarga la aplicacion oficial para cada plataforma.',
+    subtitle: 'Gestión',
+    heroTitle: 'Centro oficial de instaladores',
+    heroDescription: 'Descarga la aplicación oficial para cada plataforma.',
     installersTitle: 'Instaladores',
-    version: 'Version',
-    size: 'Tamano',
+    version: 'Versión',
+    size: 'Tamaño',
     requirements: 'Requisitos',
     download: 'Descargar',
-    pending: 'Proximamente',
-    pendingLabel: 'Sin enlace aun',
+    pending: 'Próximamente',
+    pendingLabel: 'Sin enlace aún',
     footerText: 'Performing in Vintage Classic - Installer Hub'
   },
   en: {
@@ -136,6 +136,7 @@ export default function LandingPage({ theme, toggleTheme, language, changeLangua
   const t = TEXT[language] || TEXT.es;
   const isDark = theme === 'dark';
   const publicBase = process.env.PUBLIC_URL || '';
+  const currentLanguageLabel = LANGUAGE_OPTIONS.find((item) => item.code === language)?.label || language.toUpperCase();
   const resolveAssetUrl = (assetPath) => `${publicBase}/${assetPath}`.replace(/([^:]\/)\/+/g, '$1');
 
   return (
@@ -175,15 +176,16 @@ export default function LandingPage({ theme, toggleTheme, language, changeLangua
 
           <div className="ml-4 flex items-center gap-3">
             <div
-              className={`flex h-10 items-center gap-2 rounded-md border px-3 ${
+              className={`relative flex h-10 items-center gap-2 rounded-md border px-3 ${
                 isDark ? 'border-slate-700 bg-transparent text-slate-100' : 'border-slate-300 bg-transparent text-slate-900'
               }`}
             >
-              <Globe className="h-4 w-4" />
+              <Globe className="h-4 w-4 pointer-events-none" />
+              <span className="pointer-events-none text-sm">{currentLanguageLabel}</span>
               <select
                 value={language}
                 onChange={(e) => changeLanguage(e.target.value)}
-                className={`bg-transparent text-sm outline-none ${isDark ? 'text-slate-100' : 'text-slate-900'}`}
+                className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
                 aria-label="Language selector"
               >
                 {LANGUAGE_OPTIONS.map((item) => (
