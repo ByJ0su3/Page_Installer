@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Page_Installer/static/css/main.829711fc.css",
+    "main.js": "/Page_Installer/static/js/main.762dd582.js",
+    "index.html": "/Page_Installer/index.html",
+    "main.829711fc.css.map": "/Page_Installer/static/css/main.829711fc.css.map",
+    "main.762dd582.js.map": "/Page_Installer/static/js/main.762dd582.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.829711fc.css",
+    "static/js/main.762dd582.js"
+  ]
+}
